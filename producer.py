@@ -16,7 +16,6 @@ PEXELS_KEY = os.environ.get('PEXELS_KEY', '')
 FONT_PATH = '/tmp/Montserrat-Bold.ttf'
 WORK_DIR = Path('/tmp/roarrhythm')
 
-
 def setup():
     WORK_DIR.mkdir(parents=True, exist_ok=True)
     # Install font
@@ -28,14 +27,12 @@ def setup():
         Path(FONT_PATH).write_bytes(r.content)
     print("Setup complete")
 
-
 def run_ffmpeg(cmd):
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     if r.returncode != 0:
         print(f"FFmpeg error: {r.stderr[-400:]}")
         raise RuntimeError("FFmpeg failed")
     return r
-
 
 def get_duration(path):
     r = subprocess.run(
@@ -44,7 +41,6 @@ def get_duration(path):
         capture_output=True, text=True
     )
     return float(r.stdout.strip() or 0)
-
 
 def download_music(music_url):
     music_path = WORK_DIR / 'music.mp3'
@@ -78,10 +74,9 @@ def download_music(music_url):
             continue
     raise RuntimeError("Could not download music")
 
-
 # ─── PIXABAY ────────────────────────────────────────────────────────────────
 
-def search_pixabay(queries, min_width=1280):
+def search_pixabay(queries, min_width=1280, excluded_tags=None):
     all_hits = []
     for q in queries:
         try:
@@ -97,9 +92,20 @@ def search_pixabay(queries, min_width=1280):
 
     seen = set()
     clips = []
+    rejected = 0
     for hit in all_hits:
         if hit['id'] in seen or hit['duration'] < 6:
             continue
+
+        # ── Tag-based content filter ──────────────────────────────────────
+        # Reject clips whose Pixabay tags contain off-topic subjects
+        if excluded_tags:
+            tags_str = hit.get('tags', '').lower()
+            if any(ex.lower() in tags_str for ex in excluded_tags):
+                rejected += 1
+                continue
+        # ─────────────────────────────────────────────────────────────────
+
         seen.add(hit['id'])
         for quality in ['large', 'medium', 'small']:
             v = hit.get('videos', {}).get(quality, {})
@@ -109,8 +115,10 @@ def search_pixabay(queries, min_width=1280):
                 clips.append({'url': v['url'], 'dur': hit['duration'],
                               'id': hit['id'], 'w': w, 'h': h, 'source': 'pixabay'})
                 break
-    return clips
 
+    if rejected:
+        print(f"  Tag filter: rejected {rejected} off-topic Pixabay clips")
+    return clips
 
 # ─── PEXELS ─────────────────────────────────────────────────────────────────
 
@@ -145,7 +153,6 @@ def search_pexels_landscape(queries):
             print(f"Pexels landscape error for '{q}': {e}")
     return clips
 
-
 def search_pexels_portrait(queries):
     clips = []
     for q in queries:
@@ -173,7 +180,6 @@ def search_pexels_portrait(queries):
         except Exception as e:
             print(f"Pexels portrait error for '{q}': {e}")
     return clips
-
 
 # ─── NORMALIZATION ───────────────────────────────────────────────────────────
 
@@ -214,7 +220,6 @@ def normalize_landscape(clips, max_clips=12, trim=12):
             raw.unlink(missing_ok=True)
     return norm_paths
 
-
 def normalize_portrait(clips, max_clips=8, trim=12):
     """Download and normalize clips to 1080x1920 portrait, audio stripped."""
     norm_paths = []
@@ -252,7 +257,6 @@ def normalize_portrait(clips, max_clips=8, trim=12):
             raw.unlink(missing_ok=True)
     return norm_paths
 
-
 # ─── CONCAT ─────────────────────────────────────────────────────────────────
 
 def concat_clips(norm_paths, output_path):
@@ -262,7 +266,6 @@ def concat_clips(norm_paths, output_path):
             f.write(f"file '{path}'\n")
     run_ffmpeg(f'ffmpeg -y -f concat -safe 0 -i "{list_file}" -c copy "{output_path}" -loglevel error')
     return get_duration(output_path)
-
 
 # ─── CAPTION HELPERS ─────────────────────────────────────────────────────────
 
@@ -292,16 +295,27 @@ def build_drawtext(captions, norm_paths, final_dur, font_size=50, y_pos='h-170',
         )
     return ','.join(parts)
 
-
 # ─── PRODUCE MAIN VIDEO (16:9, ~90s) ─────────────────────────────────────────
 
 def produce_main(topic):
     print("\n=== MAIN VIDEO (landscape 16:9) ===")
-    # Gather landscape clips
-    px_clips = search_pixabay(topic['queries_landscape'])
+    excluded = topic.get('excluded_tags')
+
+    # Gather landscape clips — Pixabay with tag filter, Pexels with specific queries
+    px_clips = search_pixabay(
+        topic['queries_landscape'],
+        excluded_tags=excluded
+    )
     pe_clips = search_pexels_landscape(topic['queries_landscape'])
     all_clips = px_clips + pe_clips
     print(f"{len(all_clips)} landscape candidates")
+
+    if len(all_clips) < 4:
+        # Fallback: relax filter and retry Pixabay only
+        print("  Low clip count — retrying Pixabay without tag filter...")
+        px_clips = search_pixabay(topic['queries_landscape'])
+        all_clips = px_clips + pe_clips
+        print(f"  {len(all_clips)} candidates after fallback")
 
     if len(all_clips) < 4:
         raise RuntimeError("Not enough landscape clips found")
@@ -326,7 +340,7 @@ def produce_main(topic):
 
     music_path = download_music(topic['music_url'])
     drawtext = build_drawtext(topic['captions_main'], norm_paths, final_dur,
-                               font_size=50, y_pos='h-170')
+                              font_size=50, y_pos='h-170')
 
     output = str(WORK_DIR / 'FINAL_main.mp4')
     print(f"Rendering {final_dur:.0f}s main video...")
@@ -346,7 +360,6 @@ def produce_main(topic):
     size_mb = Path(output).stat().st_size / 1e6
     print(f"Main video: {size_mb:.1f}MB | {get_duration(output):.1f}s")
     return output, norm_paths
-
 
 # ─── PRODUCE SHORTS (9:16) ───────────────────────────────────────────────────
 
@@ -434,7 +447,6 @@ def produce_shorts(topic, landscape_norm_paths):
     print(f"Short 2: {s2_mb:.1f}MB | {get_duration(short2_out):.1f}s")
 
     return short1_out, short2_out
-
 
 # ─── CLEANUP ─────────────────────────────────────────────────────────────────
 
