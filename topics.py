@@ -6,6 +6,7 @@ Selected by day-of-year so each day gets a different topic.
 TOPICS = [
     {
         "name": "Butterflies",
+        "excluded_tags": ["dog", "cat", "cow", "horse", "sheep", "goat", "pig", "donkey", "chicken", "farm", "livestock", "domestic", "snake", "lizard", "frog"],
         "queries_landscape": ["butterfly", "butterfly flower", "monarch butterfly"],
         "queries_portrait": ["butterfly close up", "butterfly garden", "butterfly wings"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
@@ -74,10 +75,11 @@ Follow for more incredible nature facts! 🌿
 
 #NatureFacts #Butterflies #DidYouKnow #Shorts #Wildlife #Science #NatureLovers""",
         "tags": ["butterflies", "butterfly", "nature", "wildlife", "insects", "animals", "4K nature", "relaxing", "nature documentary", "beautiful nature", "roar rhythm"],
-        "category_id": "15",  # Pets & Animals
+        "category_id": "15",
     },
     {
         "name": "Eagles",
+        "excluded_tags": ["chicken", "duck", "goose", "turkey", "farm", "domestic", "pigeon", "cage", "parrot", "pet", "hen", "rooster"],
         "queries_landscape": ["eagle flying", "bald eagle", "eagle nature"],
         "queries_portrait": ["eagle close up", "eagle portrait", "eagle eye"],
         "music_url": "https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3",
@@ -135,6 +137,7 @@ These incredible birds have inspired awe and reverence across every human cultur
     },
     {
         "name": "Ocean Coral Reefs",
+        "excluded_tags": ["aquarium", "tank", "pool", "river", "lake", "farm", "freshwater", "pond"],
         "queries_landscape": ["coral reef", "underwater ocean", "tropical fish reef"],
         "queries_portrait": ["underwater fish", "coral close up", "tropical fish"],
         "music_url": "https://cdn.pixabay.com/audio/2022/10/30/audio_0c1e3cb9fb.mp3",
@@ -192,6 +195,7 @@ These incredible ecosystems cover less than 1% of the ocean floor yet support an
     },
     {
         "name": "Wolves",
+        "excluded_tags": ["donkey", "goat", "sheep", "cattle", "horse", "pig", "cow", "chicken", "livestock", "farm", "domestic", "barn"],
         "queries_landscape": ["wolf nature", "wolves pack", "wolf howling"],
         "queries_portrait": ["wolf close up", "wolf portrait", "wolf eyes"],
         "music_url": "https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3",
@@ -249,6 +253,7 @@ Wolves are not just predators. They are ecosystem engineers that reshape entire 
     },
     {
         "name": "Bees",
+        "excluded_tags": ["wasp", "hornet", "spider", "mosquito", "cockroach", "ant", "fly", "snake", "lizard", "frog"],
         "queries_landscape": ["bee flower", "honey bee", "bee pollination"],
         "queries_portrait": ["bee close up", "bee macro", "bee on flower"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
@@ -306,6 +311,7 @@ Without bees, our food systems and ecosystems would collapse. These tiny creatur
     },
     {
         "name": "Dolphins",
+        "excluded_tags": ["aquarium", "pool", "tank", "circus", "captive", "zoo"],
         "queries_landscape": ["dolphin ocean", "dolphins swimming", "dolphin pod"],
         "queries_portrait": ["dolphin close up", "dolphin underwater", "dolphin jumping"],
         "music_url": "https://cdn.pixabay.com/audio/2022/10/30/audio_0c1e3cb9fb.mp3",
@@ -364,6 +370,7 @@ Dolphins are among the most cognitively advanced animals on our planet, with com
     },
     {
         "name": "Elephants",
+        "excluded_tags": ["circus", "zoo", "cage", "captive", "farm", "domestic"],
         "queries_landscape": ["elephant nature", "elephant herd", "african elephant"],
         "queries_portrait": ["elephant close up", "elephant portrait", "elephant eye"],
         "music_url": "https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3",
@@ -422,6 +429,7 @@ These magnificent creatures are among the most emotionally complex and intellige
     },
     {
         "name": "Northern Lights",
+        "excluded_tags": ["fireworks", "neon", "disco", "city light", "traffic light", "concert", "lamp", "spotlight"],
         "queries_landscape": ["northern lights", "aurora borealis", "aurora night sky"],
         "queries_portrait": ["aurora borealis", "northern lights portrait", "night sky stars"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
@@ -476,10 +484,11 @@ These dancing lights in the sky have captivated humanity for thousands of years,
         "description_short1": "🌌 Aurora Borealis in breathtaking 4K — nature's greatest light show!\n\nThese magical lights are caused by solar particles dancing in our atmosphere!\n\nFollow @RoarRhythm for daily nature! 🌿\n\n#NorthernLights #Aurora #Shorts #NightSky #Nature",
         "description_short2": "🌌 What REALLY creates the Northern Lights? The science is mind-blowing! 🤯\n\nSolar particles from the sun travel 93 million miles to create this magical display in our atmosphere!\n\n#NorthernLights #Science #Shorts #Aurora #NatureFacts",
         "tags": ["northern lights", "aurora borealis", "aurora", "night sky", "nature", "natural wonders", "4K aurora", "solar", "roar rhythm"],
-        "category_id": "28",  # Science & Technology
+        "category_id": "28",
     },
     {
         "name": "Hummingbirds",
+        "excluded_tags": ["parrot", "chicken", "duck", "pigeon", "farm", "cage", "domestic", "dove", "turkey"],
         "queries_landscape": ["hummingbird flower", "hummingbird feeding", "hummingbird nature"],
         "queries_portrait": ["hummingbird close up", "hummingbird macro", "hummingbird portrait"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
@@ -538,6 +547,7 @@ These extraordinary tiny birds push the limits of what we thought was physically
     },
     {
         "name": "Oceans Deep",
+        "excluded_tags": ["aquarium", "pool", "lake", "river", "farm", "freshwater", "tank", "pond"],
         "queries_landscape": ["deep ocean", "ocean underwater", "sea creatures"],
         "queries_portrait": ["jellyfish underwater", "deep sea fish", "ocean creature"],
         "music_url": "https://cdn.pixabay.com/audio/2022/10/30/audio_0c1e3cb9fb.mp3",
@@ -596,6 +606,7 @@ These extraordinary tiny birds push the limits of what we thought was physically
     },
     {
         "name": "Lions",
+        "excluded_tags": ["cow", "horse", "sheep", "goat", "pig", "donkey", "chicken", "farm", "livestock", "domestic"],
         "queries_landscape": ["lion nature", "lion pride", "african lion"],
         "queries_portrait": ["lion close up", "lion portrait", "lion face"],
         "music_url": "https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3",
@@ -654,6 +665,7 @@ Lions are the only truly social wild cats on Earth, living in complex family gro
     },
     {
         "name": "Forests",
+        "excluded_tags": ["city", "urban", "building", "road", "car", "concrete", "mall", "factory", "street"],
         "queries_landscape": ["forest nature", "ancient forest", "forest trees"],
         "queries_portrait": ["forest light", "tree close up", "forest path portrait"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
@@ -712,6 +724,7 @@ Forests are far more than collections of trees. They are complex, intelligent co
     },
     {
         "name": "Octopuses",
+        "excluded_tags": ["aquarium", "tank", "pool", "food", "restaurant", "sushi", "seafood", "cooked", "market"],
         "queries_landscape": ["octopus ocean", "octopus underwater", "octopus camouflage"],
         "queries_portrait": ["octopus close up", "octopus tentacles", "octopus portrait"],
         "music_url": "https://cdn.pixabay.com/audio/2022/10/30/audio_0c1e3cb9fb.mp3",
@@ -770,6 +783,7 @@ These remarkable creatures seem to have evolved intelligence completely independ
     },
     {
         "name": "Dragonflies",
+        "excluded_tags": ["spider", "mosquito", "cockroach", "ant", "beetle", "worm", "centipede", "snake", "lizard"],
         "queries_landscape": ["dragonfly nature", "dragonfly flower", "dragonfly water"],
         "queries_portrait": ["dragonfly close up", "dragonfly macro", "dragonfly portrait"],
         "music_url": "https://cdn.pixabay.com/audio/2024/08/19/audio_53fd9f6bc0.mp3",
